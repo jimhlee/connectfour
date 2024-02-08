@@ -103,9 +103,10 @@ function checkForWin() {
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
     for (let coords of cells) {
-      //example input [0,0]
       const y = coords[0];
       const x = coords[1];
+      console.log('y=', y);
+      console.log('x=', x);
       /*
       try {
         const coordsToCheck = document.querySelector(`#c-${y}-${x}`);
@@ -116,9 +117,17 @@ function checkForWin() {
         continue;
       }
       */
-      if (!board[y][x] === currPlayer) {
+      if (x === undefined || y === undefined) {
         return false;
       }
+      if (x >= WIDTH || x < 0) {
+        return false;
+      } else if (y >= HEIGHT || y < 0){
+        return false;
+      } else if (board[y][x] !== currPlayer) {
+        return false;
+      }
+
     }
     return true;
   }
@@ -135,7 +144,7 @@ function checkForWin() {
 
       const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
       const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      const diagDL = [[y, x], [y - 1, x - 1], [y - 2, x - 2], [y - 3, x - 3]];
+      const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
       const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
 
       // find winner (only checking each win-possibility as needed)
@@ -167,7 +176,10 @@ function handleClick(evt) {
 
   // place piece in board and add to HTML table
   // TODO: add line to update global `board` variable with new piece
+
   placeInTable(y, x);
+
+  board[y][x] = currPlayer;
 
   // check for win
   if (checkForWin()) {
@@ -177,8 +189,15 @@ function handleClick(evt) {
   // check for tie: if top row is filled, board is filled
   // TODO: check if all cells in board are filled; if so, call endGame
 
+  if (board[0].every(elem => elem !== null)) {
+    endGame('The entire board is filled!');
+
+  }
+
+
   // switch players
   // TODO: switch currPlayer 1 <-> 2
+  currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
 }
 
 /** Start game. */
