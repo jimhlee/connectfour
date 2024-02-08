@@ -106,17 +106,19 @@ function checkForWin() {
       //example input [0,0]
       const y = coords[0];
       const x = coords[1];
-      const coordsToCheck = document.querySelector(`#c-${y}-${x}`);
-      if (Array.from(coordsToCheck.classList).includes(`p${currPlayer}`)) {
-
+      /*
+      try {
+        const coordsToCheck = document.querySelector(`#c-${y}-${x}`);
+        if (!Array.from(coordsToCheck.classList).includes(`p${currPlayer}`)) {
+          return false;
+        }
+      } catch (err) {
+        continue;
       }
-      // if (coords[0] < 0 || coords[0] > 5) {
-      //   return false;
-      // }
-      // if (coords[1] < 0 || coords[1] > 6) {
-      //   return false;
-      // }
-
+      */
+      if (!board[y][x] === currPlayer) {
+        return false;
+      }
     }
     return true;
   }
